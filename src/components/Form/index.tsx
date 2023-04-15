@@ -3,7 +3,7 @@ import Input from "../Input"
 
 function Form (){
         return(
-            <form className="my-[114px] w-96 font-titilliumWeb">
+            <form className="my-20 w-96 font-titilliumWeb">
                 <div className="  flex flex-col  gap-4 mb-10">
                 <h1 className="   text-slate-800	  font-bold text-4xl ">Acesse a plataforma</h1>
                 <h2 className=" text-base text-slate-600">Faça login ou registre-se para começar a construir seus projetos ainda hoje.</h2>

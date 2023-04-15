@@ -3,12 +3,16 @@ type InputProps = {
     name:string
     placeholder:string
     label:string
+    forgotPassword?:boolean
 }
-function Input({type,name,placeholder,label}:InputProps){
+function Input({type,name,placeholder,label,forgotPassword}:InputProps){
     return(
-            <p className="gap-2  flex justify-start flex-col">
-                <label htmlFor={name}>{label}</label>
-                <input className="  text-gray-800  gap-3  py-4 px-3 border border-slate-200 rounded  placeholder:text-slate-400 focus-visible:border-purple-400  focus-visible:outline-none"  type={type} name={name} placeholder={placeholder? placeholder : ''} />
+            <p className="gap-2  flex justify-start flex-col pt-4">
+                <label className=" flex  text-sm  font-semibold justify-between  items-center pb-2" htmlFor={name}>
+                <span className="  text-slate-800">{label}</span>
+                <span className=" text-violet-600 cursor-pointer hover:underline transition-all">{forgotPassword? 'esqueceu a senha': ''}</span>
+                </label>
+                <input className="  text-slate-800  gap-3  text-sm  py-4 px-3 border border-slate-200 rounded  placeholder:text-slate-400 focus-visible:border-purple-400  focus-visible:outline-none"  type={type} name={name} placeholder={placeholder? placeholder : ''} />
             </p>
     )
 }

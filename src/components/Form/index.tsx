@@ -1,15 +1,31 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Input from "../Input"
 import ReactLoading from 'react-loading';
+import { signIn,getSession} from "next-auth/react"
+import { Controller, useForm } from "react-hook-form";
 
+type FormData = {
+    email: string;
+    password: string;
+  }
+  
 
 function Form (){
+    const [teste,setTeste] = useState()
+    const { handleSubmit,control } = useForm<FormData>({ defaultValues:{
+        email:'',
+        password:''
+    } });
+
+
     const [signUp,setSignUp] = useState<boolean>(false)
     const  [loading,setLoading] = useState(false)
+  
     
         return(
             <>
-            {loading && (<> <div className="  absolute   w-full h-full">
+            {
+            loading && (<> <div className="  absolute   w-full h-full">
 
             <ReactLoading type="spin" color="#5B20B6"  className=" lg:left-[80%] lg:top-[30%]   left-[43%] top-[24%] z-[999999] absolute  text-violet-800  " height={'10%'} width={'10%'} ></ReactLoading>
             </div>
@@ -21,18 +37,40 @@ function Form (){
             
 
 
-            <form className="my-20 w-full font-titilliumWeb">   
+            <form onSubmit={handleSubmit((data) =>{
+                const result = signIn('credentials',{ redirect: false,username:data.email,password:data.password}).then((result)=>{
+                    console.log(result)
+                })
+                   
+                })
+        
+                } className="my-20 w-full font-titilliumWeb">   
 
              
                 <div className="  flex flex-col justify-center  gap-4 mb-10">
                 <h1 className="   text-slate-800	  font-bold lg:text-4xl text-2xl ">  {signUp ? 'Inscreve-se':'Acesse a plataforma'}</h1>
                 <h2 className=" text-sm  text-slate-600">Faça login ou registre-se para começar a construir seus projetos ainda hoje.</h2>
                 </div>
-                    
-                <Input name="email" label="E-email" placeholder="Digite seu e-email" type="email"/>
-                <Input name="password" label="Senha" placeholder="Digite sua senha" type="password" forgotPassword={true}/>
-                <button  onClick={(e)=>{
-                        e.preventDefault()
+                <Controller   name="email"  control={control} render={({field})=>(
+                    <Input  
+                    value={field.value}
+                    onChange={field.onChange}
+                    name="email" 
+                    label="E-email" 
+                    placeholder="Digite seu e-email" type="text"
+                    />
+
+                )} />
+                <Controller   name="password"  control={control} render={({field})=>(
+                <Input  
+                onChange={field.onChange}
+                value={field.value}
+                name="password" label="Senha" placeholder="Digite sua senha" type="password" forgotPassword={true}/>
+
+
+                )} />
+            
+                <button     onClick={(e)=>{
                         setLoading(true)
                         setTimeout(()=>{
                             setLoading(false)

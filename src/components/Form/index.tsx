@@ -3,6 +3,7 @@ import Input from "../Input"
 import ReactLoading from 'react-loading';
 import { signIn,getSession} from "next-auth/react"
 import { Controller, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 type FormData = {
     email: string;
@@ -11,7 +12,7 @@ type FormData = {
   
 
 function Form (){
-    const [teste,setTeste] = useState()
+    const router = useRouter()
     const { handleSubmit,control } = useForm<FormData>({ defaultValues:{
         email:'',
         password:''
@@ -39,7 +40,9 @@ function Form (){
 
             <form onSubmit={handleSubmit((data) =>{
                 const result = signIn('credentials',{ redirect: false,username:data.email,password:data.password}).then((result)=>{
-                    console.log(result)
+                if(!result?.error){
+                    router.push('/dashbord')
+                }
                 })
                    
                 })
